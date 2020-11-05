@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ROOM2</string>
+    <string name="add_school">Adicionar escola</string>
+    <string name="empty_not_saved">Escola vazia: Não inserida</string>
+    <string name="insertschool">Insira Escola</string>
+    <string name="insertdistrit">Insira Distrito</string>
+    <string name="save">Guardar</string>
+</resources>
