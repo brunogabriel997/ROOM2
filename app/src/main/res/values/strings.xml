@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ROOM2</string>
+    <string name="add_school">Add school</string>
+    <string name="empty_not_saved">Escola vazia: não inserida</string>
+    <string name="insertschool">Insira Escola</string>
+    <string name="insertdistrit">Insira Distrito</string>
 </resources>

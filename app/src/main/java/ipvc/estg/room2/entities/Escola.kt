@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "school_table")
 
-class Escola {
+class Escola (
     // Int? = null so when creating instance id has not to be passed as argument
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     @ColumnInfo(name = "school") val school: String,
     @ColumnInfo(name = "distrit") val distrit: String
-}
+)
