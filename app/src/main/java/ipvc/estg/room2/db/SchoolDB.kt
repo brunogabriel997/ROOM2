@@ -26,15 +26,15 @@ public abstract class SchoolDB : RoomDatabase() {
                     var schoolDao = database.SchoolDao()
 
                     // Delete all content here.
-                    schoolDao.deleteAll()
+                    //schoolDao.deleteAll()
 
                     // Add sample cities.
-                    var school = Escola(1, "ESTG", "Viana do Castelo")
+                    /*var school = Escola(1, "ESTG", "Viana do Castelo")
                     schoolDao.insert(school)
                     school = Escola(2, "FEUP", "Porto")
                     schoolDao.insert(school)
                     school = Escola(3, "UMinho", "Braga")
-                    schoolDao.insert(school)
+                    schoolDao.insert(school)*/
 
                 }
             }
@@ -59,7 +59,7 @@ public abstract class SchoolDB : RoomDatabase() {
                     "schools_database",
                 )
                     //estratégia de destruição
-                    .fallbackToDestructiveMigration()
+                    //.fallbackToDestructiveMigration()
                     .addCallback(WordDatabaseCallback(scope))
                     .build()
 

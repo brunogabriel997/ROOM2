@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +18,8 @@ import ipvc.estg.room2.adapters.SchoolAdapter
 import ipvc.estg.room2.entities.Escola
 import ipvc.estg.room2.viewModel.SchoolViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() , SchoolAdapter.ItemClicked {
+
 
     private lateinit var schoolViewModel: SchoolViewModel
     private val newWordActivityRequestCode = 1
@@ -68,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-/*
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
@@ -83,69 +85,74 @@ class MainActivity : AppCompatActivity() {
                 true
             }
 
-            R.id.cidadesPortugal -> {
+            R.id.escolasViana -> {
 
                 // recycler view
                 val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-                val adapter = CityAdapter(this)
+                val adapter = SchoolAdapter(this)
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(this)
 
                 // view model
-                schoolViewModel = ViewModelProvider(this).get(CityViewModel::class.java)
-                schoolViewModel.getCitiesByCountry("Portugal").observe(this, Observer { cities ->
+                schoolViewModel = ViewModelProvider(this).get(SchoolViewModel::class.java)
+                schoolViewModel.getSchoolsByDistrit("Viana do Castelo").observe(this, Observer { schools ->
                     // Update the cached copy of the words in the adapter.
-                    cities?.let { adapter.setCities(it) }
+                    schools?.let { adapter.setSchools(it) }
                 })
 
                 true
             }
 
-            R.id.todasCidades -> {
+            R.id.todasEscolas -> {
 
                 // recycler view
                 val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-                val adapter = CityAdapter(this)
+                val adapter = SchoolAdapter(this)
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(this)
 
                 // view model
-                schoolViewModel = ViewModelProvider(this).get(CityViewModel::class.java)
-                schoolViewModel.allCities.observe(this, Observer { cities ->
+                schoolViewModel = ViewModelProvider(this).get(SchoolViewModel::class.java)
+                schoolViewModel.allSchools.observe(this, Observer { schools ->
                     // Update the cached copy of the words in the adapter.
-                    cities?.let { adapter.setCities(it) }
+                    schools?.let { adapter.setSchools(it) }
                 })
 
 
                 true
             }
 
-            R.id.getCountryFromAveiro -> {
-                schoolViewModel = ViewModelProvider(this).get(CityViewModel::class.java)
-                schoolViewModel.getCountryFromCity("Aveiro").observe(this, Observer { city ->
-                    Toast.makeText(this, city.country, Toast.LENGTH_SHORT).show()
+            R.id.getDistritFromFEUP -> {
+                schoolViewModel = ViewModelProvider(this).get(SchoolViewModel::class.java)
+                schoolViewModel.getDistritFromSchools("FEUP").observe(this, Observer { school ->
+                    Toast.makeText(this, school.distrit, Toast.LENGTH_SHORT).show()
                 })
                 true
             }
 
-            R.id.apagarAveiro -> {
-                schoolViewModel.deleteByCity("Aveiro")
+            R.id.apagarFEUP -> {
+                schoolViewModel.deleteBySchool("FEUP")
                 true
             }
 
             R.id.alterar -> {
-                val city = City(id = 1, city = "xxx", country = "xxx")
-                schoolViewModel.updateCity(city)
+                val school = Escola(id = 1, school = "xxx", distrit = "xxx")
+                schoolViewModel.updateSchool(school)
                 true
             }
 
-            R.id.alteraraveiro -> {
-                schoolViewModel.updateCountryFromCity("Aveiro", "Japão")
+            R.id.alterarFEUP -> {
+                schoolViewModel.updateDistritFromSchool("FEUP", "Porto")
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
     }
-*/
+    override fun onClickListener(school: Escola) {
+        Toast.makeText(applicationContext, "Editar Escola", Toast.LENGTH_SHORT).show()
+
+        //setContentView(R.layout.edit_student)
+    }
+
 }

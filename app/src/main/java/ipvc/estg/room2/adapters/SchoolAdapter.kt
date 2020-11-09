@@ -13,6 +13,7 @@ class SchoolAdapter internal constructor(
     context: Context
 ) : RecyclerView.Adapter<SchoolAdapter.SchoolViewHolder>() {
 
+    val activity = context as ItemClicked
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var schools = emptyList<Escola>() // Cached copy of cities
 
@@ -28,6 +29,8 @@ class SchoolAdapter internal constructor(
     override fun onBindViewHolder(holder: SchoolViewHolder, position: Int) {
         val current = schools[position]
         holder.schoolItemView.text = current.id.toString() + " - " + current.school + "-" + current.distrit
+        holder.itemView.setOnClickListener(View.OnClickListener { activity.onClickListener(schools.get(position)) })
+
     }
 
     internal fun setSchools(schools: List<Escola>) {
@@ -36,4 +39,10 @@ class SchoolAdapter internal constructor(
     }
 
     override fun getItemCount() = schools.size
+
+    interface ItemClicked {
+        fun onClickListener(school: Escola){
+        }
+    }
+
 }
