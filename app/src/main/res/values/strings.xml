@@ -5,4 +5,5 @@
     <string name="insertschool">Insert School</string>
     <string name="insertdistrit">Insert District</string>
     <string name="save">Save</string>
+    <string name="delete">Delete</string>
 </resources>

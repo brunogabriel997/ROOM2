@@ -54,6 +54,10 @@ class SchoolViewModel (application: Application) : AndroidViewModel(application)
         repository.updateSchool(school)
     }
 
+    fun deleteId(school: Escola) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteId(school)
+    }
+
     fun updateDistritFromSchool(school: String, distrit: String) = viewModelScope.launch {
         repository.updateDistritFromSchool(school, distrit)
     }

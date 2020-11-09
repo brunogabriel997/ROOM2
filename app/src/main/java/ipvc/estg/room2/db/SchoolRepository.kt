@@ -34,6 +34,10 @@ class SchoolRepository (private val schoolDao: SchoolDao){
         schoolDao.updateSchool(school)
     }
 
+    suspend fun deleteId(school: Escola) {
+        schoolDao.deleteId(school)
+    }
+
     suspend fun updateDistritFromSchool(school: String, distrit: String){
         schoolDao.updateDistritFromSchool(school, distrit)
     }

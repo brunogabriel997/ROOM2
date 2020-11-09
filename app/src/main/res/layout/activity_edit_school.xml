@@ -30,5 +30,12 @@
         android:background="@color/colorPrimary"
         android:text="@string/save"
         />
+    <Button
+        android:id="@+id/button_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="#F44336"
+        android:text="@string/delete"/>
 
 </LinearLayout>

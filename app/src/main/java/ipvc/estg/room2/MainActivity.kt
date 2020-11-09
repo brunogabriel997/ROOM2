@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() , SchoolAdapter.ItemClicked {
 
     private lateinit var schoolViewModel: SchoolViewModel
     private val newWordActivityRequestCode = 1
+    private val editWordActivityRequestCode = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,15 +55,36 @@ class MainActivity : AppCompatActivity() , SchoolAdapter.ItemClicked {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            val pcity = data?.getStringExtra(AddSchool.EXTRA_REPLY_SCHOOL)
-            val pcountry = data?.getStringExtra(AddSchool.EXTRA_REPLY_DISTRIT)
+            val pschool = data?.getStringExtra(AddSchool.EXTRA_REPLY_SCHOOL)
+            val pdistrit = data?.getStringExtra(AddSchool.EXTRA_REPLY_DISTRIT)
 
-            if (pcity!= null && pcountry != null) {
-                val city = Escola(school = pcity, distrit = pcountry)
-                schoolViewModel.insert(city)
+
+            if (pschool!= null && pdistrit != null) {
+                val school = Escola(school = pschool, distrit = pdistrit)
+                schoolViewModel.insert(school)
             }
 
-        } else {
+        }else if (requestCode == editWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
+            val delete = data?.getStringExtra(EditSchool.EXTRA_REPLY_DELETE)
+            val pschool = data?.getStringExtra(AddSchool.EXTRA_REPLY_SCHOOL)
+            val pdistrit = data?.getStringExtra(AddSchool.EXTRA_REPLY_DISTRIT)
+            val pid = data?.getIntExtra(AddSchool.EXTRA_REPLY_ID, -10)
+
+            if (delete == "delete") {
+                val pid = data?.getIntExtra(AddSchool.EXTRA_REPLY_ID, -10)
+                if (pid != -10 && pschool != null && pdistrit != null) {
+                    val school = Escola(id = pid, school = pschool, distrit = pdistrit)
+                    schoolViewModel.deleteId(school)
+                }
+            } else {
+                if (pid != -10 && pschool != null && pdistrit != null) {
+                    val school = Escola(id = pid, school = pschool, distrit = pdistrit)
+                    Toast.makeText(this, pid.toString(), Toast.LENGTH_SHORT).show()
+                    schoolViewModel.updateSchool(school)
+                }
+            }
+        }
+        else {
             Toast.makeText(
                 applicationContext,
                 R.string.empty_not_saved,
@@ -151,8 +173,12 @@ class MainActivity : AppCompatActivity() , SchoolAdapter.ItemClicked {
     }
     override fun onClickListener(school: Escola) {
         Toast.makeText(applicationContext, "Editar Escola", Toast.LENGTH_SHORT).show()
-
-        //setContentView(R.layout.edit_student)
+        val intent = Intent(this@MainActivity, EditSchool::class.java)
+        intent.putExtra("Id", school.id)
+        intent.putExtra("Escola", school.school)
+        intent.putExtra("Distrito", school.distrit)
+        startActivityForResult(intent, editWordActivityRequestCode)
+        //setContentView(R.layout.activity_add_school)
     }
 
 }

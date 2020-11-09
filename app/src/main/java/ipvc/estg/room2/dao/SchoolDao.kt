@@ -19,8 +19,11 @@ interface SchoolDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(school: Escola)
 
-    @Update
+    @Update (onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateSchool(school: Escola)
+
+    @Delete
+    suspend fun deleteId(id: Escola)
 
     @Query("DELETE FROM school_table")
     suspend fun deleteAll()
