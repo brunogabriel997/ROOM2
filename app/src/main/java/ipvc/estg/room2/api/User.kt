@@ -2,7 +2,7 @@ package ipvc.estg.room2.api
 /*
 data class User(
     val id: Int,
-    val nomeEscola: String,
+    val name: String,
     val email: String,
     val address: Address
 )
@@ -19,13 +19,16 @@ data class Geo(
     val lat: String,
     val lng: String
 )
-*/
-// Alterar conforme a minha Database
 
+// Alterar conforme a minha Database
+*/
 
 data class User(
     val Id: String,
-    val Escola: String,
-    val Distrito: String
+    val nome_user: String,
+    val descricao: String,
+    val lat: String,
+    val lng: String
+
 )
 

@@ -8,7 +8,7 @@ import retrofit2.http.*
 
 interface EndPoints {
 
-    @GET("/api/escolasdetalhe/")
+    @GET("/meuslim/api/escolasdetalhe")
     //@GET("/users/")
     fun getUsers(): Call<List<User>>
 
@@ -18,4 +18,9 @@ interface EndPoints {
     @FormUrlEncoded
     @POST("/posts")
     fun postTest(@Field("title") first: String?): Call<OutputPost>
+
+    @FormUrlEncoded
+    @POST("/meuslim/api/escola/login2")
+    fun login(  @Field("nome_user") first: String?,
+                @Field("pass") pass: String?): Call<OutputPost>
 }

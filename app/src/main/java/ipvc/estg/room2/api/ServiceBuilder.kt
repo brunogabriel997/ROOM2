@@ -9,7 +9,7 @@ object ServiceBuilder {
 
     private val retrofit = Retrofit.Builder()
         //.baseUrl("http://jsonplaceholder.typicode.com/")            // Introduzir URL da minha Database
-        .baseUrl("https://b3gersc.000webhostapp.com/meuslim/")
+        .baseUrl("https://b3gersc.000webhostapp.com/")
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()

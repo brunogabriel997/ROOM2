@@ -22,19 +22,27 @@ class MainActivity2 : AppCompatActivity() {
     // https://medium.com/@cafonsomota/android-emulator-when-theres-no-connection-to-the-internet-129e8b63b7ce'
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+        setContentView(R.layout.login)
 
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getUsers()
 
         call.enqueue(object : Callback<List<User>>{
             override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                Log.d("*** TAG", response.toString())
                 if (response.isSuccessful){
-                    recyclerView.apply {
+                    Log.d("*** TAG", "in")
+                   /* recyclerView.apply {
                         setHasFixedSize(true)
                         layoutManager = LinearLayoutManager(this@MainActivity2)
                         adapter = UserAdapter(response.body()!!)
+                    }*/
+                    val users : List<User> = response.body()!!
+                    for (user in users){
+                        Toast.makeText(this@MainActivity2, user.nome_user, Toast.LENGTH_SHORT).show()
                     }
+                } else {
+                    Log.d("***TAG", "not successful")
                 }
             }
             override fun onFailure(call: Call<List<User>>, t: Throwable) {
@@ -42,7 +50,7 @@ class MainActivity2 : AppCompatActivity() {
             }
         })
     }
-
+/*
     fun getSingle(view: View) {
 
         val request = ServiceBuilder.buildService(EndPoints::class.java)
@@ -60,8 +68,8 @@ class MainActivity2 : AppCompatActivity() {
                 Toast.makeText(this@MainActivity2, "${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
-    }
-
+    }*/
+/*
     fun post(view: View) {
 
         val request = ServiceBuilder.buildService(EndPoints::class.java)
@@ -79,7 +87,7 @@ class MainActivity2 : AppCompatActivity() {
                 Toast.makeText(this@MainActivity2, "${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
-    }
+    }*/
 /*
     fun map(view: View) {
         val intent = Intent(this, MapsActivity::class.java).apply {

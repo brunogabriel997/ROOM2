@@ -7,4 +7,8 @@
     <string name="insertdistrit">Insira Distrito</string>
     <string name="save">Guardar</string>
     <string name="delete">Eliminar</string>
+    <string name="login">Iniciar Sessão</string>
+    <string name="nome_user">Utilizador</string>
+    <string name="pass">Palavra-passe</string>
+    <string name="login_form_title">Iniciar Sessão</string>
 </resources>
