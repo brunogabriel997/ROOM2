@@ -18,6 +18,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity2 : AppCompatActivity() {
+    /*
     // solve internet issue on emulator
     // https://medium.com/@cafonsomota/android-emulator-when-theres-no-connection-to-the-internet-129e8b63b7ce'
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,4 +98,6 @@ class MainActivity2 : AppCompatActivity() {
     }
 
  */
+
+     */
 }

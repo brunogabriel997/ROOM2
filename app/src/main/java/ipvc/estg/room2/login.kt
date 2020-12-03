@@ -54,8 +54,9 @@ class login : AppCompatActivity() {
                             } else {          // Se der tudo certo
                                 Toast.makeText(this@login, "Bem vindo " + nome_user, Toast.LENGTH_LONG).show()
 
-                                //val intent = Intent(this@login, MapsActivity::class.java)     // Abrir a main do maps
-                                //startActivity(intent)
+                                val intent = Intent(this@login, MapsActivity::class.java)       // Abrir a main do maps
+                                startActivity(intent)
+
                             }
                         }
                     }
