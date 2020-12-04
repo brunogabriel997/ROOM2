@@ -1,10 +1,16 @@
 package ipvc.estg.room2
 
+//import javax.security.auth.callback.Callback
+import android.content.pm.PackageManager
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.widget.Toast
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -14,8 +20,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import ipvc.estg.room2.api.EndPoints
 import ipvc.estg.room2.api.ServiceBuilder
 import ipvc.estg.room2.api.User
-import java.net.ResponseCache
-//import javax.security.auth.callback.Callback
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +29,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var users: List<User>
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var lastLocation: Location
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +42,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        // Initialize fusedLocationClient
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         // call the service and add markers
         val request = ServiceBuilder.buildService(EndPoints::class.java)
@@ -47,17 +56,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (response.isSuccessful) {
                     users = response.body()!!
                     for (user in users) {
-                        Toast.makeText(this@MapsActivity, user.lat, Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this@MapsActivity, user.lat, Toast.LENGTH_SHORT).show()
 
                         position = LatLng(user.lat.toString().toDouble(),
-                            user.lng.toString().toDouble())
+                                user.lng.toString().toDouble())
                         mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao))
-
 
 
                     }
                 }
             }
+
             override fun onFailure(call: Call<List<User>>, t: Throwable) {
                 Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_SHORT).show()
             }
@@ -84,5 +93,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         */
+        setUpMap()
     }
+
+    fun setUpMap() {                    // Minha localização atual
+        if (ActivityCompat.checkSelfPermission(this,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+            return
+        } else {
+            // 1
+            mMap.isMyLocationEnabled = true
+            // 2
+            fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
+                // Got last known location. In some rare situations this can be null.
+                // 3
+                if (location != null) {
+                    lastLocation = location
+                    Toast.makeText(this@MapsActivity, lastLocation.toString(), Toast.LENGTH_SHORT).show()
+                    val currentLatLng = LatLng(location.latitude, location.longitude)
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+                }
+            }
+        }
+
+    }
+
+
+
+
 }
