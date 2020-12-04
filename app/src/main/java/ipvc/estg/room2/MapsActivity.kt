@@ -15,7 +15,10 @@ import ipvc.estg.room2.api.EndPoints
 import ipvc.estg.room2.api.ServiceBuilder
 import ipvc.estg.room2.api.User
 import java.net.ResponseCache
-import javax.security.auth.callback.Callback
+//import javax.security.auth.callback.Callback
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -38,15 +41,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val call = request.getUsers()
         var position: LatLng
 
-        /*
+
         call.enqueue(object : Callback<List<User>> {
             override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
                 if (response.isSuccessful) {
                     users = response.body()!!
                     for (user in users) {
-                        position = LatLng(user.address.geo.lat.toString().toDouble(),
-                            user.address.geo.lng.toString().toDouble())
-                        mMap.addMarker(MarkerOptions().position(position).title(user.address.suite + " - " + user.address.city))
+                        Toast.makeText(this@MapsActivity, user.lat, Toast.LENGTH_SHORT).show()
+
+                        position = LatLng(user.lat.toString().toDouble(),
+                            user.lng.toString().toDouble())
+                        mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao))
+
+
+
                     }
                 }
             }
@@ -55,7 +63,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         })
 
-         */
+
     }
 
     /**

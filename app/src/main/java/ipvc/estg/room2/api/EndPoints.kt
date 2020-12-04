@@ -8,11 +8,11 @@ import retrofit2.http.*
 
 interface EndPoints {
 
-    @GET("/meuslim/api/escolasdetalhe")
+    @GET("/meuslim/api/maps")
     //@GET("/users/")
     fun getUsers(): Call<List<User>>
 
-    @GET("/users/{id}")
+    @GET("/meuslim/api/maps/{id}")
     fun getUserById(@Path("id") id: Int): Call<User>
 
     @FormUrlEncoded

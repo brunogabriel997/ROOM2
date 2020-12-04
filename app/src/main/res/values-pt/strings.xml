@@ -11,4 +11,6 @@
     <string name="nome_user">Utilizador</string>
     <string name="pass">Palavra-passe</string>
     <string name="login_form_title">Iniciar Sessão</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="checkbox">Guardar Login</string>
 </resources>

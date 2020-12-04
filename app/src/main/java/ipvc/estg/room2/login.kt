@@ -2,12 +2,16 @@ package ipvc.estg.room2
 
 import kotlinx.android.synthetic.main.login.*
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import ipvc.estg.room2.api.EndPoints
@@ -17,8 +21,11 @@ import ipvc.estg.room2.api.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlinx.android.synthetic.main.login.*
+
 
 class login : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +59,21 @@ class login : AppCompatActivity() {
                                         Toast.LENGTH_SHORT
                                 ).show()
                             } else {          // Se der tudo certo
+
+                                val check1: CheckBox = findViewById(R.id.checkbox)
+                                if (check1.isChecked){
+
+                                    //Toast.makeText(this@Login, "Toogle On", Toast.LENGTH_SHORT).show()
+
+                                    var token = getSharedPreferences("utilizador", Context.MODE_PRIVATE)
+                                    intent.putExtra("utilizador", nome_user)
+                                    var editor = token.edit()
+                                    editor.putString("loginutilizador", nome_user)
+                                    editor.commit()
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                }
+
+
                                 Toast.makeText(this@login, "Bem vindo " + nome_user, Toast.LENGTH_LONG).show()
 
                                 val intent = Intent(this@login, MapsActivity::class.java)       // Abrir a main do maps
@@ -67,5 +89,20 @@ class login : AppCompatActivity() {
             }
         }
     }
+
+
+
+    override fun onStart() {
+        super.onStart()
+        var token = getSharedPreferences("utilizador", Context.MODE_PRIVATE)
+        if (token.getString("loginutilizador", " ") != " ") {
+            val intent = Intent(applicationContext, MapsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
+
+    }
+
 
 }

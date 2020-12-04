@@ -11,4 +11,6 @@
     <string name="pass">Password</string>
     <string name="login_form_title">Sign Up</string>
     <string name="title_activity_maps">Map</string>
+    <string name="checkbox">Save Login</string>
+    <string name="preference_file_key" translatable="false">ficheiro1</string>
 </resources>

@@ -1,5 +1,5 @@
 package ipvc.estg.room2.api
-
+/*
 data class User(
     val id: Int,
     val name: String,
@@ -21,16 +21,17 @@ data class Geo(
 )
 
 // Alterar conforme a minha Database
+*/
 
-/*
+
 data class User(
     val Id: String,
-    val nome_user: String,
-    val descricao: String,
+    val Descricao: String,
+    val Username: String,
     val lat: String,
     val lng: String
 
 )
 
- */
+
 

@@ -61,6 +61,12 @@
                 android:text="@string/login"
                 android:textSize="22sp"/>
 
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkbox"
+                android:text="@string/checkbox"/>
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
