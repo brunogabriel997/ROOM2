@@ -17,6 +17,9 @@
     <string name="logout">Logout</string>
     <string name="tipo">Type</string>
     <string name="descricao">Description</string>
+    <string name="filtrar1">Show Acident</string>
+    <string name="filtrar2">Show road works</string>
+    <string name="filtrarall">Show all</string>
 
 
     <string-array name="tipo">

@@ -15,6 +15,23 @@
     </item>
 
     <item
+        android:id="@+id/filtrar1"
+        android:title="@string/filtrar1"
+        app:showAsAction="never">
+    </item>
+
+    <item
+        android:id="@+id/filtrar2"
+        android:title="@string/filtrar2"
+        app:showAsAction="never">
+    </item>
+    <item
+        android:id="@+id/filtrarall"
+        android:title="@string/filtrarall"
+        app:showAsAction="never">
+    </item>
+
+    <item
         android:id="@+id/logout"
         android:title="@string/logout"
         app:showAsAction="never">

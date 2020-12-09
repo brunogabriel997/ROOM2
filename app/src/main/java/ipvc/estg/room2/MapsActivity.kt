@@ -63,20 +63,36 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     users = response.body()!!
                     val extras = intent.extras
                     val id = extras?.getString("id")
+                    val tipo_id = extras?.getInt("tipo_id")
+
 
                     for (user in users) {
-                        //Toast.makeText(this@MapsActivity, user.lat, Toast.LENGTH_SHORT).show()
-                        if (user.User_id.toInt() == id?.toInt()) {
-                            position = LatLng(user.lat.toString().toDouble(),
-                                    user.lng.toString().toDouble())
-                            mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao))
+
+                        if (tipo_id == 0) {
+                            //Toast.makeText(this@MapsActivity, user.lat, Toast.LENGTH_SHORT).show()
+                            if (user.User_id.toInt() == id?.toInt()) {
+                                position = LatLng(user.lat.toString().toDouble(),
+                                        user.lng.toString().toDouble())
+                                mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao))
+                            } else {
+                                position = LatLng(user.lat.toString().toDouble(),
+                                        user.lng.toString().toDouble())
+                                mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
+                            }
                         }
                         else {
-                            position = LatLng(user.lat.toString().toDouble(),
-                                    user.lng.toString().toDouble())
-                            mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
+                            if (user.tipo_id.toInt() == tipo_id) {
+                                if (user.User_id.toInt() == id?.toInt()) {
+                                    position = LatLng(user.lat.toString().toDouble(),
+                                            user.lng.toString().toDouble())
+                                    mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao))
+                                } else {
+                                    position = LatLng(user.lat.toString().toDouble(),
+                                            user.lng.toString().toDouble())
+                                    mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
+                                }
+                            }
                         }
-
                     }
                 }
             }
@@ -94,7 +110,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 lastLocation = p0.lastLocation
                 var loc = LatLng(lastLocation.latitude, lastLocation.longitude)
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15.0f))
-                Toast.makeText(this@MapsActivity, "Lat: " + loc.latitude.toString() + " Long : " + loc.longitude.toString(), Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@MapsActivity, "Lat: " + loc.latitude.toString() + " Long : " + loc.longitude.toString(), Toast.LENGTH_SHORT).show()
             }
         }
         createLocationRequest()
@@ -187,6 +203,48 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 true
             }
+            R.id.filtrar1 -> {
+
+                val extras = intent.extras
+                val id = extras?.getString("id")
+
+
+                val intent = Intent(this@MapsActivity, MapsActivity::class.java)
+                var tipo_id = 1
+                intent.putExtra("tipo_id", tipo_id)
+                intent.putExtra("id", id)
+                finish()
+                startActivity(intent)
+                true
+
+            }
+
+            R.id.filtrar2 -> {
+                val extras = intent.extras
+                val id = extras?.getString("id")
+
+
+                val intent = Intent(this@MapsActivity, MapsActivity::class.java)
+                var tipo_id = 2
+                intent.putExtra("tipo_id", tipo_id)
+                intent.putExtra("id", id)
+                finish()
+                startActivity(intent)
+                true
+            }
+            R.id.filtrarall -> {
+                val extras = intent.extras
+                val id = extras?.getString("id")
+
+
+                val intent = Intent(this@MapsActivity, MapsActivity::class.java)
+                var tipo_id = 0
+                intent.putExtra("tipo_id", tipo_id)
+                intent.putExtra("id", id)
+                finish()
+                startActivity(intent)
+                true
+            }
             R.id.logout -> {
                 var token = getSharedPreferences("utilizador", Context.MODE_PRIVATE)
                 intent.putExtra("utilizador", " ")
@@ -232,8 +290,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onRestart()
         val extras = intent.extras
         val id = extras?.getString("id")
+        val tipo_id = extras?.getString("tipo_id")
         val intent = Intent(this@MapsActivity, MapsActivity::class.java)
         intent.putExtra("id", id)
+
         startActivity(intent)
         finish()
 

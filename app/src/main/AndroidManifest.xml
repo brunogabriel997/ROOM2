@@ -34,10 +34,10 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
-        <activity android:name=".login">
+        <activity android:name=".login"
+            android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,7 +45,8 @@
         <activity android:name=".MainActivity2" />
         <activity android:name=".AddSchool" />
         <activity android:name=".EditSchool" />
-        <activity android:name=".AddAcidente" />
+        <activity android:name=".AddAcidente"
+            android:label="@string/add_acidente"/>
     </application>
 
 </manifest>

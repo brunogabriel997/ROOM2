@@ -1,11 +1,10 @@
 package ipvc.estg.room2
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -15,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AddAcidente : AppCompatActivity(){
+class AddAcidente : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +47,9 @@ class AddAcidente : AppCompatActivity(){
             // Apply the adapter to the spinner
             spinner.adapter = adapter
         }
+
+        spinner.onItemSelectedListener = this
+
 
 
 
@@ -125,6 +127,17 @@ class AddAcidente : AppCompatActivity(){
             //Toast.makeText(this@AddAcidente, descricao+ " | "+lng, Toast.LENGTH_SHORT).show()
 
         }
+
+
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
+        // An item was selected. You can retrieve the selected item using
+        parent.getItemAtPosition(pos)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>) {
+        // Another interface callback
     }
 
 
@@ -147,4 +160,7 @@ class AddAcidente : AppCompatActivity(){
     }
 
 
+
+
 }
+

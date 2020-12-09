@@ -17,4 +17,7 @@
     <string name="logout">Terminar Sessão</string>
     <string name="tipo">Tipo</string>
     <string name="descricao">Descrição</string>
+    <string name="filtrar1">Filtrar por Acidentes</string>
+    <string name="filtrar2">Filtrar por obras</string>
+    <string name="filtrarall">Mostrar tudo</string>
 </resources>

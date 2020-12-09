@@ -31,6 +31,7 @@ data class User(
     val Username: String,
     val lat: String,
     val lng: String,
+    val tipo_id: String,
     val Tipo: String
 )
 
