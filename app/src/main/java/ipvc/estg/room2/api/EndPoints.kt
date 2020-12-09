@@ -12,7 +12,7 @@ interface EndPoints {
     //@GET("/users/")
     fun getUsers(): Call<List<User>>
 
-    @GET("/meuslim/api/maps/{nome_user}")
+    @GET("/meuslim/api/maps/{id}")
     fun getUserById(@Path("id") id: Int?): Call<List<User>>
 
     @GET("/meuslim/api/maps2/{nome_user}")

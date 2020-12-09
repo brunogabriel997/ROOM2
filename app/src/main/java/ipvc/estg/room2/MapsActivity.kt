@@ -17,6 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import ipvc.estg.room2.api.EndPoints
@@ -65,7 +66,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     for (user in users) {
                         //Toast.makeText(this@MapsActivity, user.lat, Toast.LENGTH_SHORT).show()
-                        if (user.Id.toInt() == id?.toInt()) {
+                        if (user.User_id.toInt() == id?.toInt()) {
                             position = LatLng(user.lat.toString().toDouble(),
                                     user.lng.toString().toDouble())
                             mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao))
@@ -73,7 +74,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         else {
                             position = LatLng(user.lat.toString().toDouble(),
                                     user.lng.toString().toDouble())
-                            mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao))
+                            mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
                         }
 
                     }
@@ -181,7 +182,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 intent.putExtra("lat", loc.latitude.toString())
                 intent.putExtra("lng", loc.longitude.toString())
                 intent.putExtra("id", id)
-                finish()
+                //finish()
                 startActivity(intent)
 
                 true
@@ -193,6 +194,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 editor.putString("loginutilizador", " ")
                 editor.commit()
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                //finish()
+                val intent = Intent(this@MapsActivity, login::class.java)
+                startActivity(intent)
                 finish()
                 true
             }
@@ -222,6 +226,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     {
         super.onResume()
         startLocationUpdates()
+    }
+
+    public override fun onRestart() {
+        super.onRestart()
+        val extras = intent.extras
+        val id = extras?.getString("id")
+        val intent = Intent(this@MapsActivity, MapsActivity::class.java)
+        intent.putExtra("id", id)
+        startActivity(intent)
+        finish()
+
     }
 
 }

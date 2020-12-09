@@ -26,6 +26,7 @@ data class Geo(
 
 data class User(
     val Id: String,
+    val User_id: String,
     val Descricao: String,
     val Username: String,
     val lat: String,

@@ -47,20 +47,16 @@ class MainActivity2 : AppCompatActivity() {
 
     fun getSingle(view: View) {
 
-        // Nome do admin
-        //var token = getSharedPreferences("utilizador", Context.MODE_PRIVATE)
-
-        //var nome = token.getString("loginutilizador", " ")
-        //Toast.makeText(this@MainActivity2, nome, Toast.LENGTH_SHORT).show()
-
+        // Obter ID do Utilizador atual ///////////
         val extras = intent.extras
         val id = extras?.getString("id")
+        ///////////////////////////////////////////
 
+        // Obter recyclerview dos acidentes do Utilizador atual ////////////////////////////////////
         val request = ServiceBuilder.buildService(EndPoints::class.java)
-        //val call = request.getUserById(id?.toInt())
+        val call = request.getUserById(id?.toInt())
         Toast.makeText(this@MainActivity2, id, Toast.LENGTH_SHORT).show()
 
-/*
         call.enqueue(object : Callback<List<User>>{
             override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
                 if (response.isSuccessful){
@@ -75,8 +71,8 @@ class MainActivity2 : AppCompatActivity() {
                 Toast.makeText(this@MainActivity2, "${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
- */
 
 /*
         val request = ServiceBuilder.buildService(EndPoints::class.java)

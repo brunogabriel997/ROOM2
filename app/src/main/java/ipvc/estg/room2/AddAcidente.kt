@@ -109,9 +109,9 @@ class AddAcidente : AppCompatActivity(){
                                         "Acidente introduzido com exito.",
                                         Toast.LENGTH_SHORT
                                 ).show()
-                                val intent = Intent(this@AddAcidente, MapsActivity::class.java)
+                                //val intent = Intent(this@AddAcidente, MapsActivity::class.java)
                                 finish()
-                                startActivity(intent)
+                                //startActivity(intent)
 
                             }
                         }

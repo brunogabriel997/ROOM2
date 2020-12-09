@@ -90,14 +90,22 @@ class login : AppCompatActivity() {
 
                                 val intent = Intent(this@login, MapsActivity::class.java)       // Abrir a main do maps
                                 intent.putExtra("id", id)
-                                finish()
+                                if (check1.isChecked) {
+                                    finish()
+                                }
                                 startActivity(intent)
+
 
                             }
                         }
                     }
                     override fun onFailure(call: Call<OutputPost>, t: Throwable) {
-                        Toast.makeText(this@login, "${t.message}", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this@login, "${t.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                                this@login,
+                                "Username ou palavra passe incorreta",
+                                Toast.LENGTH_SHORT
+                        ).show()
                     }
                 })
             }
@@ -113,6 +121,7 @@ class login : AppCompatActivity() {
             val intent = Intent(applicationContext, MapsActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.putExtra("id", token.getString("loginid", " "))
+            finish()
             startActivity(intent)
         }
 
