@@ -14,4 +14,14 @@
     <string name="checkbox">Save Login</string>
     <string name="preference_file_key" translatable="false">ficheiro1</string>
     <string name="add_acidente">Insert acident</string>
+    <string name="logout">Logout</string>
+    <string name="tipo">Type</string>
+    <string name="descricao">Description</string>
+
+
+    <string-array name="tipo">
+        <item>Acidente</item>
+        <item>Obras</item>
+    </string-array>
+
 </resources>

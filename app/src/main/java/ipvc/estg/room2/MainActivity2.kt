@@ -1,5 +1,6 @@
 package ipvc.estg.room2
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,32 +19,24 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity2 : AppCompatActivity() {
-    /*
+
     // solve internet issue on emulator
     // https://medium.com/@cafonsomota/android-emulator-when-theres-no-connection-to-the-internet-129e8b63b7ce'
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login)
+        setContentView(R.layout.activity_main2)
 
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getUsers()
 
         call.enqueue(object : Callback<List<User>>{
             override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
-                Log.d("*** TAG", response.toString())
                 if (response.isSuccessful){
-                    Log.d("*** TAG", "in")
-                   /* recyclerView.apply {
+                    recyclerView.apply {
                         setHasFixedSize(true)
                         layoutManager = LinearLayoutManager(this@MainActivity2)
                         adapter = UserAdapter(response.body()!!)
-                    }*/
-                    val users : List<User> = response.body()!!
-                    for (user in users){
-                        Toast.makeText(this@MainActivity2, user.nome_user, Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Log.d("***TAG", "not successful")
                 }
             }
             override fun onFailure(call: Call<List<User>>, t: Throwable) {
@@ -51,9 +44,41 @@ class MainActivity2 : AppCompatActivity() {
             }
         })
     }
-/*
+
     fun getSingle(view: View) {
 
+        // Nome do admin
+        //var token = getSharedPreferences("utilizador", Context.MODE_PRIVATE)
+
+        //var nome = token.getString("loginutilizador", " ")
+        //Toast.makeText(this@MainActivity2, nome, Toast.LENGTH_SHORT).show()
+
+        val extras = intent.extras
+        val id = extras?.getString("id")
+
+        val request = ServiceBuilder.buildService(EndPoints::class.java)
+        //val call = request.getUserById(id?.toInt())
+        Toast.makeText(this@MainActivity2, id, Toast.LENGTH_SHORT).show()
+
+/*
+        call.enqueue(object : Callback<List<User>>{
+            override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                if (response.isSuccessful){
+                    recyclerView.apply {
+                        setHasFixedSize(true)
+                        layoutManager = LinearLayoutManager(this@MainActivity2)
+                        adapter = UserAdapter(response.body()!!)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<List<User>>, t: Throwable) {
+                Toast.makeText(this@MainActivity2, "${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+ */
+
+/*
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getUserById(2) // estaticamente o valor 2. deverá depois passar a ser dinamico
 
@@ -69,7 +94,9 @@ class MainActivity2 : AppCompatActivity() {
                 Toast.makeText(this@MainActivity2, "${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
-    }*/
+ */
+
+    }
 /*
     fun post(view: View) {
 
@@ -89,15 +116,14 @@ class MainActivity2 : AppCompatActivity() {
             }
         })
     }*/
-/*
+
     fun map(view: View) {
+        /*
         val intent = Intent(this, MapsActivity::class.java).apply {
         }
         startActivity(intent)
-
+        */
+        finish()
     }
-
- */
-
-     */
+    
 }

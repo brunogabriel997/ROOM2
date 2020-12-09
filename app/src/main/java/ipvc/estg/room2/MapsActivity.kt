@@ -1,16 +1,18 @@
 package ipvc.estg.room2
 
 //import javax.security.auth.callback.Callback
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -26,6 +28,9 @@ import retrofit2.Response
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
 
     private lateinit var mMap: GoogleMap
     private lateinit var users: List<User>
@@ -55,13 +60,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
                 if (response.isSuccessful) {
                     users = response.body()!!
+                    val extras = intent.extras
+                    val id = extras?.getString("id")
+
                     for (user in users) {
                         //Toast.makeText(this@MapsActivity, user.lat, Toast.LENGTH_SHORT).show()
-
-                        position = LatLng(user.lat.toString().toDouble(),
-                                user.lng.toString().toDouble())
-                        mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao))
-
+                        if (user.Id.toInt() == id?.toInt()) {
+                            position = LatLng(user.lat.toString().toDouble(),
+                                    user.lng.toString().toDouble())
+                            mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao))
+                        }
+                        else {
+                            position = LatLng(user.lat.toString().toDouble(),
+                                    user.lng.toString().toDouble())
+                            mMap.addMarker(MarkerOptions().position(position).title(user.Username + " - " + user.Descricao))
+                        }
 
                     }
                 }
@@ -73,6 +86,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         })
 
 
+        locationCallback = object : LocationCallback()
+        {
+            override fun onLocationResult(p0: LocationResult) {
+                super.onLocationResult(p0)
+                lastLocation = p0.lastLocation
+                var loc = LatLng(lastLocation.latitude, lastLocation.longitude)
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15.0f))
+                Toast.makeText(this@MapsActivity, "Lat: " + loc.latitude.toString() + " Long : " + loc.longitude.toString(), Toast.LENGTH_SHORT).show()
+            }
+        }
+        createLocationRequest()
+
+    }
+
+    private fun createLocationRequest() {
+        locationRequest = LocationRequest()
+        // interval specifies the rate at which your app will like to receive updates. locationRequest.interval = 10000
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
 
     /**
@@ -111,7 +142,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 // 3
                 if (location != null) {
                     lastLocation = location
-                    Toast.makeText(this@MapsActivity, lastLocation.toString(), Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this@MapsActivity, lastLocation.toString(), Toast.LENGTH_SHORT).show()
                     val currentLatLng = LatLng(location.latitude, location.longitude)
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
                 }
@@ -120,7 +151,77 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.mapsmenu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val request = ServiceBuilder.buildService(EndPoints::class.java)
+        //val call = request.getUsers()
+        val replyIntent = Intent()
+        return when (item.itemId) {
+
+            R.id.lista -> {
+                val extras = intent.extras
+                val id = extras?.getString("id")
+
+                val intent = Intent(this@MapsActivity, MainActivity2::class.java)       // Abrir a main do Menu com a listagem
+                intent.putExtra("id", id)
+                startActivity(intent)
+                true
+            }
+            R.id.add_acidente -> {
+                val extras = intent.extras
+                val id = extras?.getString("id")
+
+                var loc = LatLng(lastLocation.latitude, lastLocation.longitude)
+                val intent = Intent(this@MapsActivity, AddAcidente::class.java)
+                intent.putExtra("lat", loc.latitude.toString())
+                intent.putExtra("lng", loc.longitude.toString())
+                intent.putExtra("id", id)
+                finish()
+                startActivity(intent)
+
+                true
+            }
+            R.id.logout -> {
+                var token = getSharedPreferences("utilizador", Context.MODE_PRIVATE)
+                intent.putExtra("utilizador", " ")
+                var editor = token.edit()
+                editor.putString("loginutilizador", " ")
+                editor.commit()
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                finish()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
 
+    private fun startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) { ActivityCompat.requestPermissions(this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE)
+            return
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */) }
+
+
+
+    override fun onPause() {
+        super.onPause()
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
+
+    public override fun onResume()
+    {
+        super.onResume()
+        startLocationUpdates()
+    }
 
 }

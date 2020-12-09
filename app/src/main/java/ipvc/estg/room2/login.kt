@@ -26,11 +26,16 @@ import kotlinx.android.synthetic.main.login.*
 
 class login : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
 
+
+        val notas = findViewById<Button>(R.id.notas_button)
+        notas.setOnClickListener {
+            val intent = Intent(this@login, MainActivity::class.java)       // Abrir a main do maps
+            startActivity(intent)
+        }
 
 
         val button = findViewById<Button>(R.id.activity_main_loginButton)
@@ -61,22 +66,31 @@ class login : AppCompatActivity() {
                             } else {          // Se der tudo certo
 
                                 val check1: CheckBox = findViewById(R.id.checkbox)
+                                val id = response.body()?.title.toString()
                                 if (check1.isChecked){
 
                                     //Toast.makeText(this@Login, "Toogle On", Toast.LENGTH_SHORT).show()
 
                                     var token = getSharedPreferences("utilizador", Context.MODE_PRIVATE)
                                     intent.putExtra("utilizador", nome_user)
+                                    intent.putExtra("utilizador", id)
                                     var editor = token.edit()
                                     editor.putString("loginutilizador", nome_user)
+                                    editor.putString("loginid", id)
                                     editor.commit()
                                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+
+
+
                                 }
 
 
                                 Toast.makeText(this@login, "Bem vindo " + nome_user, Toast.LENGTH_LONG).show()
 
                                 val intent = Intent(this@login, MapsActivity::class.java)       // Abrir a main do maps
+                                intent.putExtra("id", id)
+                                finish()
                                 startActivity(intent)
 
                             }
@@ -98,11 +112,11 @@ class login : AppCompatActivity() {
         if (token.getString("loginutilizador", " ") != " ") {
             val intent = Intent(applicationContext, MapsActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.putExtra("id", token.getString("loginid", " "))
             startActivity(intent)
         }
 
 
     }
-
 
 }

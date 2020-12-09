@@ -29,8 +29,12 @@ data class User(
     val Descricao: String,
     val Username: String,
     val lat: String,
-    val lng: String
+    val lng: String,
+    val Tipo: String
+)
 
+data class iduser(
+        val id: String?
 )
 
 

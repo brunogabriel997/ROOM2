@@ -37,12 +37,12 @@ class UsersViewHolder(itemView : View): RecyclerView.ViewHolder(itemView){
         email.text = user.Distrito
         */
 
-        /*
-        name.text = user.name
-        city.text = user.address.city
+
+        name.text = user.Username
+        city.text = user.Descricao
         //email.text = email.text
-        email.text = user.email
-        */
+        email.text = user.Tipo
+
     }
 
 }
